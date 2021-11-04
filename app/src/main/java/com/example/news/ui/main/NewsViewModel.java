@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.news.data.NewsClient;
-import com.example.news.pojo.NewsModel;
+import com.example.news.pojo.Article;
 
 import java.util.List;
 
@@ -13,22 +13,20 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class NewsViewModel extends ViewModel {
-  static   MutableLiveData<List<NewsModel>> postsMutableLiveData = new MutableLiveData<>();
-  static   MutableLiveData<String> posts = new MutableLiveData<>();
+    MutableLiveData<List<Article>> postsMutableLiveData = new MutableLiveData<>();
+    MutableLiveData<String> posts = new MutableLiveData<>();
 
-    public static void getNews() {
-        NewsClient.getINSTANCE().getNews().enqueue(new Callback<List<NewsModel>>() {
+    public void getPosts() {
+        NewsClient.getINSTANCE().getPosts().enqueue(new Callback<List<Article>>() {
             @Override
-            public void onResponse(Call<List<NewsModel>> call, Response<List<NewsModel>> response) {
+            public void onResponse(Call<List<Article>> call, Response<List<Article>> response) {
                 postsMutableLiveData.setValue(response.body());
             }
 
             @Override
-            public void onFailure(Call<List<NewsModel>> call, Throwable t) {
+            public void onFailure(Call<List<Article>> call, Throwable t) {
                 posts.setValue("errr");
-
             }
         });
-
     }
 }

@@ -1,6 +1,7 @@
 package com.example.news.data;
 
-import com.example.news.pojo.NewsModel;
+import com.example.news.pojo.Article;
+
 
 import java.util.List;
 
@@ -12,12 +13,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
     public class NewsClient {
+        private static final String BASE_URL = "http://jsonplaceholder.typicode.com/";
         private NewsIterFace postInterface;
         private static NewsClient INSTANCE;
 
         public NewsClient() {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("https://newsapi.org/")
+                    .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             postInterface = retrofit.create(NewsIterFace.class);
@@ -30,7 +32,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
             return INSTANCE;
         }
 
-        public Call<List<NewsModel>> getNews(){
-            return postInterface.getNews();
+        public Call<List<Article>> getPosts(){
+            return postInterface.getPosts();
         }
-}
+    }

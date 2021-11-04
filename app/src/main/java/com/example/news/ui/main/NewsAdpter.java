@@ -12,52 +12,45 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.news.R;
-import com.example.news.pojo.NewsModel;
+import com.example.news.pojo.Article;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class NewsAdpter extends RecyclerView.Adapter<NewsAdpter.NewsViewHolder>{
-    private List<NewsModel> list=new ArrayList<>();
-
+    private List<Article> moviesList = new ArrayList<>();
 
     @NonNull
     @Override
     public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.news_item,parent,false);
-        return new NewsViewHolder(view);
+        return new NewsViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.news_item, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final NewsViewHolder holder, final int position) {
-        final NewsModel current=list.get(position);
-        holder.name.setText(current.getTitle());
-        holder.desc.setText(current.getDescription());
-        Picasso.with(holder.itemView.getContext()).load(current.getUrlToImage()).into(holder.img);
-
+    public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
+        holder.titleTV.setText(moviesList.get(position).getTitle());
+        holder.userTV.setText(moviesList.get(position).getUserId()+"");
+        holder.bodyTV.setText(moviesList.get(position).getBody());
     }
-
 
     @Override
     public int getItemCount() {
-        return list.size();
-
+        return moviesList.size();
     }
-    public void setList(List<NewsModel> list) {
-        this.list = list;
+
+    public void setList(List<Article> moviesList) {
+        this.moviesList = moviesList;
         notifyDataSetChanged();
     }
-    static class NewsViewHolder extends RecyclerView.ViewHolder{
-        private TextView name,desc;
-        private ImageView img;
+
+    public class NewsViewHolder extends RecyclerView.ViewHolder {
+        TextView titleTV, userTV, bodyTV;
         public NewsViewHolder(@NonNull View itemView) {
             super(itemView);
-            name=itemView.findViewById(R.id.name);
-            desc=itemView.findViewById(R.id.des);
-           img=itemView.findViewById(R.id.img);
-
-
+            titleTV = itemView.findViewById(R.id.titleTV);
+            userTV = itemView.findViewById(R.id.userIDTV);
+            bodyTV = itemView.findViewById(R.id.bodyTV);
         }
     }
 }

@@ -9,30 +9,31 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 
 import com.example.news.R;
-import com.example.news.pojo.NewsModel;
+import com.example.news.pojo.Article;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-NewsViewModel   newsViewModel;
-    RecyclerView rc;
-
+    NewsViewModel postViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        newsViewModel = ViewModelProviders.of(this).get(NewsViewModel.class);
-        NewsViewModel.getNews();
-        rc=findViewById(R.id.rcv);
-       final NewsAdpter adapter =new NewsAdpter();
-       rc.setLayoutManager(new LinearLayoutManager(this));
-       rc.setAdapter(adapter);
+        postViewModel = ViewModelProviders.of(this).get(NewsViewModel.class);
 
-       newsViewModel.postsMutableLiveData.observe(this, new Observer<List<NewsModel>>() {
-           @Override
-           public void onChanged(List<NewsModel> newsModels) {
-               adapter.setList(newsModels);
-           }
-       });
+        postViewModel.getPosts();
+        RecyclerView recyclerView = findViewById(R.id.rcv);
+        final NewsAdpter adapter = new NewsAdpter();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+
+
+        postViewModel.postsMutableLiveData.observe(this, new Observer<List<Article>>() {
+            @Override
+            public void onChanged(List<Article> postModels) {
+                adapter.setList(postModels);
+            }
+        });
+
     }
 }
